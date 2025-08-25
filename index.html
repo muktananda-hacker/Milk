@@ -9,10 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary-color: #1565C0;       /* Blue – trust & freshness */
-  --secondary-color: #FFB300;     /* Amber – highlights & accents */
-  --light-bg: #E3F2FD;            /* Light Sky Blue – soft & calm */
-  --card-bg: #FFFFFF;              /* White for content cards */
+  --primary-color: #1565C0;       /* Blue */
+  --secondary-color: #FFB300;     /* Amber */
+  --light-bg: #E3F2FD;            /* Light Sky Blue */
+  --card-bg: #FFFFFF;
   --text-color: #333;
   --button-bg: #1565C0;
   --button-hover-bg: #0D47A1;
@@ -154,7 +154,6 @@ button:hover {
   .section { padding: 15px; border-radius: 10px; }
   button { padding: 12px; font-size: 0.9em; }
 }
-
 </style>
 </head>
 <body>
@@ -166,13 +165,15 @@ button:hover {
   </div>
   <h1>Nandini Milk Parlor</h1>
 
-  <div class="section" id="welcome">
+  <!-- Welcome Section -->
+  <div class="section" id="welcome" style="display:flex;">
     <h2>Hey, welcome back!</h2>
     <p class="center">Please select what you want to do today:</p>
     <button onclick="showSection('avail')">Check Availability</button>
     <button onclick="showSection('order')">Place Order</button>
   </div>
 
+  <!-- Main Entry Section -->
   <div class="section" id="mainEntry">
     <h2 id="mainEntryTitle"></h2>
     
@@ -184,6 +185,7 @@ button:hover {
       <option value="Lassi">Lassi</option>
     </select>
 
+    <!-- Milk Options -->
     <div class="options" id="milkOptions">
       <label for="sizeSelect">Milk Size:</label>
       <select id="sizeSelect">
@@ -191,7 +193,6 @@ button:hover {
         <option value="500ml">500ml</option>
         <option value="1000ml">1000ml</option>
       </select>
-
       <label for="varietySelect">Milk Color:</label>
       <select id="varietySelect">
         <option value="Orange">Orange</option>
@@ -201,6 +202,17 @@ button:hover {
       </select>
     </div>
 
+    <!-- Curd Options -->
+    <div class="options" id="curdOptions" style="display:none;">
+      <label for="curdSizeSelect">Curd Size:</label>
+      <select id="curdSizeSelect">
+        <option value="200ml">200ml</option>
+        <option value="500ml">500ml</option>
+        <option value="1000ml">1000ml</option>
+      </select>
+    </div>
+
+    <!-- Lassi Options -->
     <div class="options" id="lassiOptions" style="display:none;">
       <label for="lassiTypeSelect">Lassi Type:</label>
       <select id="lassiTypeSelect">
@@ -223,6 +235,7 @@ button:hover {
     <button class="back-btn" onclick="goBack()">Back</button>
   </div>
 
+  <!-- Final Report Section -->
   <div class="section" id="finalReport">
     <h2>Final Report</h2>
     <pre id="reportBox"></pre>
@@ -235,6 +248,7 @@ button:hover {
 let reportText = "";
 let currentMode = "";
 
+// Show welcome section on page load
 window.onload = function() {
   document.getElementById("welcome").style.display = "flex";
   document.getElementById("mainEntry").style.display = "none";
@@ -254,6 +268,7 @@ function showSection(mode) {
 function toggleOptions() {
   const item = document.getElementById("itemSelect").value;
   document.getElementById("milkOptions").style.display = item === "Milk" ? "block" : "none";
+  document.getElementById("curdOptions").style.display = item === "Curd" ? "block" : "none";
   document.getElementById("lassiOptions").style.display = item === "Lassi" ? "block" : "none";
 }
 
@@ -267,6 +282,9 @@ function addReport() {
     const size = document.getElementById("sizeSelect").value;
     const color = document.getElementById("varietySelect").value;
     entry = `- ${item} - ${color}, ${size}, Quantity: ${qty} ${unit}`;
+  } else if(item === "Curd") {
+    const size = document.getElementById("curdSizeSelect").value;
+    entry = `- ${item}, ${size}, Quantity: ${qty} ${unit}`;
   } else if(item === "Lassi") {
     const type = document.getElementById("lassiTypeSelect").value;
     entry = `- ${type}, Quantity: ${qty} ${unit}`;
@@ -275,6 +293,7 @@ function addReport() {
   }
 
   reportText += entry + "\n";
+
   document.getElementById("mainEntry").style.display = "none";
   document.getElementById("finalReport").style.display = "flex";
 
@@ -302,4 +321,3 @@ function sendToWhatsApp() {
 </script>
 </body>
 </html>
-    
